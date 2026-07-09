@@ -500,7 +500,10 @@ function updateLensMap() {
     if (feImg) {
         // Usar image/jpeg con máxima calidad es hasta 5 veces más rápido de codificar que PNG 
         // y como el alpha siempre es 255, no necesitamos transparencia.
-        feImg.setAttribute('href', canvas.toDataURL('image/jpeg', 1.0));
+        let dataUrl = canvas.toDataURL('image/jpeg', 1.0);
+        feImg.setAttribute('href', dataUrl);
+        // FIX CRÍTICO PARA IOS SAFARI (iPhone): Safari requiere explícitamente xlink:href en feImage
+        feImg.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', dataUrl);
     }
 }
 
@@ -509,3 +512,85 @@ setTimeout(updateLensMap, 50);
 
 // Inicializar el loop de físicas
 physicsLoop();
+
+// --- LOCAL STORAGE & RESET ---
+const panelInputs = document.querySelectorAll('.control-panel input, .control-panel select');
+
+function saveSettings() {
+    let settings = {};
+    panelInputs.forEach(input => {
+        settings[input.id] = input.value;
+    });
+    localStorage.setItem('liquidGlassSettings', JSON.stringify(settings));
+}
+
+function loadSettings() {
+    let saved = localStorage.getItem('liquidGlassSettings');
+    if (saved) {
+        let settings = JSON.parse(saved);
+        panelInputs.forEach(input => {
+            if (settings[input.id] !== undefined) {
+                input.value = settings[input.id];
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                if (input.tagName === 'SELECT') {
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+        });
+    }
+}
+
+panelInputs.forEach(input => {
+    input.addEventListener('input', saveSettings);
+    if (input.tagName === 'SELECT') input.addEventListener('change', saveSettings);
+});
+
+document.getElementById('btn-reset').addEventListener('click', () => {
+    localStorage.removeItem('liquidGlassSettings');
+    location.reload();
+});
+
+// Cargar ajustes guardados al iniciar
+loadSettings();
+
+// --- MOBILE RESPONSIVE PANEL SWIPE ---
+const panel = document.querySelector('.control-panel');
+let panelStartY = 0;
+let panelOpen = false;
+
+panel.addEventListener('pointerdown', (e) => {
+    if (window.innerWidth > 768) return;
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'BUTTON') return;
+    panelStartY = e.clientY;
+    panel.style.transition = 'none';
+    panel.setPointerCapture(e.pointerId);
+});
+
+panel.addEventListener('pointermove', (e) => {
+    if (!panel.hasPointerCapture(e.pointerId) || window.innerWidth > 768) return;
+    let delta = e.clientY - panelStartY;
+    if (panelOpen && delta > 0) {
+        panel.style.transform = `translateY(${delta}px)`;
+    } else if (!panelOpen && delta < 0) {
+        panel.style.transform = `translateY(calc(100% - 60px + ${delta}px))`;
+    }
+});
+
+panel.addEventListener('pointerup', (e) => {
+    if (!panel.hasPointerCapture(e.pointerId) || window.innerWidth > 768) return;
+    panel.releasePointerCapture(e.pointerId);
+    panel.style.transition = ''; 
+    panel.style.transform = ''; 
+    
+    let delta = e.clientY - panelStartY;
+    if (panelOpen && delta > 50) {
+        panel.classList.remove('open');
+        panelOpen = false;
+    } else if (!panelOpen && delta < -50) {
+        panel.classList.add('open');
+        panelOpen = true;
+    } else if (Math.abs(delta) < 10) {
+        panel.classList.toggle('open');
+        panelOpen = panel.classList.contains('open');
+    }
+});
