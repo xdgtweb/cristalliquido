@@ -179,8 +179,8 @@ body {
     transform: scaleX(var(--squash-x)) scaleY(var(--squash-y));
     border-radius: var(--br-tl) var(--br-tr) var(--br-br) var(--br-bl);
     
-    backdrop-filter: blur(var(--glass-blur)) url(#chromatic);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) url(#chromatic);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
     
     /* Sombras y bordes perfectamente simétricos */
     box-shadow: 
@@ -211,6 +211,10 @@ body {
     transform-origin: 50% 50%;
     transform: scaleX(var(--squash-x)) scaleY(var(--squash-y));
     border-radius: var(--br-tl) var(--br-tr) var(--br-br) var(--br-bl);
+    
+    /* FIX IPHONE: Aplicar el SVG filter aquí directamente en lugar del backdrop-filter */
+    filter: url(#chromatic);
+    -webkit-filter: url(#chromatic);
 }
 
 .interactive-content {
@@ -258,10 +262,10 @@ body {
         width: 100%;
         max-height: 80vh;
         border-radius: 24px 24px 0 0;
-        padding: 20px;
+        padding: 10px 20px 20px 20px;
         border: none;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        transform: translateY(calc(100% - 60px));
+        transform: translateY(calc(100% - 64px));
         transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         cursor: grab;
     }
@@ -270,14 +274,12 @@ body {
         transform: translateY(0);
     }
     
-    .control-panel::before {
-        content: '';
-        display: block;
-        width: 40px;
-        height: 5px;
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: 5px;
-        margin: 0 auto 16px auto;
+    #panel-toggle {
+        display: block !important;
+    }
+    
+    .control-panel.open #panel-arrow {
+        transform: rotate(180deg);
     }
     
     .app-container {

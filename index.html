@@ -11,7 +11,16 @@
     <div id="main-bg" class="mesh-bg bg-grid"></div>
 
     <!-- Panel de Control Interactivo -->
-    <div class="control-panel">
+    <div class="control-panel" id="control-panel">
+        <div id="panel-toggle" style="text-align: center; cursor: pointer; padding-bottom: 10px; display: none;">
+            <svg id="panel-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s;"><polyline points="18 15 12 9 6 15"></polyline></svg>
+            <div style="font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 4px; font-weight: 600; letter-spacing: 1px;">AJUSTES</div>
+        </div>
+        
+        <div style="text-align: center; margin-bottom: 12px;">
+            <a href="https://xdgtweb.github.io/cristalliquido/" target="_blank" style="color: #00ffcc; text-decoration: none; font-weight: bold; border: 1px solid rgba(0,255,204,0.5); padding: 8px 16px; border-radius: 8px; display: block; background: rgba(0,255,204,0.1); transition: background 0.2s;">🔗 Ver en GitHub Pages</a>
+        </div>
+        
         <h3>Fondos de Pantalla</h3>
         <select id="bg-selector" style="width: 100%; margin-bottom: 8px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 4px; border-radius: 4px;">
             <option value="bg-grid">Cuadrícula (Defecto)</option>
@@ -128,6 +137,9 @@
                 <!-- The masked active text is placed BEHIND the glass base so it gets refracted! -->
                 <div class="mini-interactive">
                     <div class="interactive-content" id="interactive-content">
+                        <!-- Copia del fondo para asegurar distorsión del entorno en iPhone -->
+                        <div id="mini-bg-copy" class="mesh-bg bg-grid" style="position: absolute; top: 0; left: 0; width: 400px; height: 400px; z-index: -1;"></div>
+                        
                         <div class="mini-btn" style="color: #ff5b73; font-weight: 800; font-size: 26px;">Opción A</div>
                         <div class="mini-btn" style="color: #4e80ee; font-weight: 800; font-size: 26px;">Opción B</div>
                         <div class="mini-btn" style="color: #62bec2; font-weight: 800; font-size: 26px;">Opción C</div>
