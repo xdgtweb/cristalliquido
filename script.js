@@ -104,6 +104,7 @@ document.getElementById('sl-radius').addEventListener('input', (e) => {
         root.style.setProperty('--br-bl', baseRadius + 'px');
         root.style.setProperty('--br-br', baseRadius + 'px');
     }
+    updateLensMap();
 });
 
 document.getElementById('sl-padding').addEventListener('input', (e) => {
