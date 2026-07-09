@@ -179,8 +179,8 @@ body {
     transform: scaleX(var(--squash-x)) scaleY(var(--squash-y));
     border-radius: var(--br-tl) var(--br-tr) var(--br-br) var(--br-bl);
     
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur)) url(#chromatic);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) url(#chromatic);
     
     /* Sombras y bordes perfectamente simétricos */
     box-shadow: 
@@ -211,10 +211,6 @@ body {
     transform-origin: 50% 50%;
     transform: scaleX(var(--squash-x)) scaleY(var(--squash-y));
     border-radius: var(--br-tl) var(--br-tr) var(--br-br) var(--br-bl);
-    
-    /* FIX IPHONE: Aplicar el SVG filter aquí directamente en lugar del backdrop-filter */
-    filter: url(#chromatic);
-    -webkit-filter: url(#chromatic);
 }
 
 .interactive-content {

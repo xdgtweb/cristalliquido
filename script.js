@@ -600,28 +600,10 @@ if (panelToggle) {
     });
 }
 
-// --- BACKGROUND ALIGNMENT & SELECTOR ---
-function alignBackground() {
-    const wrapper = document.getElementById('nav-wrapper');
-    const bgCopy = document.getElementById('mini-bg-copy');
-    if (bgCopy && wrapper) {
-        const rect = wrapper.getBoundingClientRect();
-        let cx = window.innerWidth / 2;
-        let cy = window.innerHeight / 2;
-        let wx = rect.left + rect.width / 2;
-        let wy = rect.top + rect.height / 2;
-        let dx = cx - wx;
-        let dy = cy - wy;
-        bgCopy.style.backgroundPosition = `calc(50% + ${dx}px) calc(50% + ${dy}px)`;
-    }
-}
-window.addEventListener('resize', alignBackground);
-setTimeout(alignBackground, 100);
-
+// --- BACKGROUND SELECTOR ---
 const bgSelector = document.getElementById('bg-selector');
 if (bgSelector) {
     bgSelector.addEventListener('change', (e) => {
         document.getElementById('main-bg').className = `mesh-bg ${e.target.value}`;
-        document.getElementById('mini-bg-copy').className = `mesh-bg ${e.target.value}`;
     });
 }
