@@ -1,0 +1,350 @@
+:root {
+    --bg-color: #000000;
+    --accent: #2979ff;
+    --card-bg: #09090b;
+    --card-border: rgba(255, 255, 255, 0.05);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.5);
+    --accent-blue: #4e80ee;
+    --accent-red: #ff5b73;
+    
+    /* Variables inyectadas para el cristal */
+    --glass-blur: 0.5px;
+    --glass-ca: 5px;
+    --glass-refraccion: 30;
+    --glass-radius: 15px;
+    --glass-grosor: 7px;
+    --glass-brillo-alpha: 0.2;
+    --glass-specular-border: rgba(255, 255, 255, 0.3);
+    
+    --active-tab: 0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.settings-container {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.settings-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 24px;
+}
+
+/* --- Toggles UI --- */
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.setting-info h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: -0.2px;
+}
+
+.setting-info p {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
+    margin-left: 16px;
+}
+
+.toggle-switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider-toggle {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #2a2a2e;
+    transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 34px;
+}
+
+.slider-toggle:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input:checked + .slider-toggle {
+    background-color: var(--accent);
+}
+
+input:checked + .slider-toggle:before {
+    transform: translateX(22px);
+}
+
+/* --- Preview Box --- */
+.preview-box {
+    background: linear-gradient(45deg, #62bec2 0%, #2b3990 100%);
+    border-radius: 12px;
+    height: 220px;
+    position: relative;
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+.preview-box h4 {
+    position: absolute;
+    top: 45px;
+    font-size: 15px;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* Checkboxes in preview */
+.preview-box label {
+    position: absolute;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.9);
+    background: rgba(0,0,0,0.4);
+    padding: 6px 12px;
+    border-radius: 100px;
+    cursor: pointer;
+}
+.cb-top { top: 10px; }
+.cb-bottom { bottom: 10px; }
+.cb-left { left: 10px; top: 50%; transform: translateY(-50%); }
+.cb-right { right: 10px; top: 50%; transform: translateY(-50%); }
+
+.preview-box input[type="checkbox"] {
+    accent-color: var(--accent);
+    width: 14px;
+    height: 14px;
+}
+
+/* --- Mini Glass Component --- */
+.mini-nav-wrapper {
+    position: relative;
+    width: 240px;
+    height: 48px;
+    margin-top: 15px;
+    border-radius: 100px;
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    touch-action: none;
+    user-select: none;
+}
+
+.mini-text-layer {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    pointer-events: none;
+}
+
+.mini-btn {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.4);
+    transition: color 0.3s;
+}
+
+#mini-glass-wrapper {
+    position: absolute;
+    top: 0; left: 0;
+    width: 120px;
+    height: 100%;
+    z-index: 2; /* Cristal DEBAJO del texto blanco */
+    pointer-events: none;
+    transform: translateX(calc(var(--glass-x, 0) * 1px));
+}
+
+#mini-glass-wrapper.animated {
+    transition: transform var(--spring-dur, 0.3s) var(--spring-ease, ease-out);
+}
+
+/* Base de Cristal: Blur uniforme en toda la pastilla y fondo tintado */
+#mini-glass-base {
+    position: absolute; inset: 0;
+    
+    /* Físicas inyectadas por JS */
+    transform-origin: 60px 50%;
+    transform: scaleX(var(--squash-x, 1)) scaleY(var(--squash-y, 1));
+    border-radius: var(--br-tl, 15px) var(--br-tr, 15px) var(--br-br, 15px) var(--br-bl, 15px);
+    
+    backdrop-filter: blur(var(--glass-blur)) url(#chromatic);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) url(#chromatic);
+    
+    box-shadow: 
+        inset 0 calc(var(--glass-grosor, 7px) * 1.5) calc(var(--glass-grosor, 7px) * 2.5) rgba(255, 255, 255, 0.45),
+        inset 0 calc(var(--glass-grosor, 7px) * -1.5) calc(var(--glass-grosor, 7px) * 2.5) rgba(0, 0, 0, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.3),
+        0 calc(4px + var(--glass-lift, 0) * 12px) calc(12px + var(--glass-lift, 0) * 20px) rgba(0,0,0, calc(0.15 + var(--glass-lift, 0) * 0.3));
+    
+    border-top: 1px solid var(--glass-specular-border);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, calc(0.20 - var(--glass-lift, 0) * 0.15)), 
+        rgba(255, 255, 255, calc(0.05 - var(--glass-lift, 0) * 0.04))
+    );
+}
+
+/* Brillo especular superior (Reflejo de luz) */
+#mini-glass-base::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px; right: 2px; height: 35%;
+    background: linear-gradient(to bottom, rgba(255,255,255, calc(var(--glass-brillo-alpha) * 0.6)), transparent);
+    border-radius: calc(var(--glass-radius) - 2px);
+    pointer-events: none;
+    opacity: var(--glass-lift, 1);
+}
+
+.mini-interactive {
+    position: absolute; inset: 0;
+    overflow: hidden;
+    z-index: 3;
+    pointer-events: none;
+    
+    transform-origin: 60px 50%;
+    transform: scaleX(var(--squash-x, 1)) scaleY(var(--squash-y, 1));
+    border-radius: var(--br-tl, 15px) var(--br-tr, 15px) var(--br-br, 15px) var(--br-bl, 15px);
+}
+
+.interactive-content {
+    position: absolute;
+    top: 0; left: 0;
+    width: 240px;
+    height: 100%;
+    display: flex;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    
+    /* Contrarresta el movimiento de la pastilla para que parezca que el texto está quieto */
+    transform: translateX(calc(var(--glass-x, 0) * -1px));
+}
+
+.interactive-content.animated {
+    transition: transform var(--spring-dur, 0.3s) var(--spring-ease, ease-out);
+}
+
+.mini-interactive.animated {
+    transition: clip-path var(--spring-dur, 0.3s) var(--spring-ease, ease-out);
+}
+
+.mini-interactive .mini-btn {
+    color: white;
+}
+
+/* Capa transparente para atrapar clics */
+.mini-click-layer {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 10; /* Atrapa los clics por encima de todo */
+    display: flex;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* --- Sliders UI --- */
+.setting-slider-row {
+    margin-bottom: 24px;
+}
+
+.slider-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.slider-header span:last-child {
+    font-weight: 400;
+    color: var(--text-secondary);
+}
+
+input[type=range].custom-range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 5px;
+    background: #333; /* Default unselected track */
+    border-radius: 3px;
+    outline: none;
+    accent-color: var(--accent);
+}
+
+/* Webkit slider thumb styling */
+input[type=range].custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: none;
+}
+
+/* Firefox slider thumb styling */
+input[type=range].custom-range::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    cursor: pointer;
+    border: none;
+}
+
+.divider {
+    height: 1px;
+    background-color: var(--card-border);
+    margin: 24px 0;
+}

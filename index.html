@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Glass Navigation</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+    <!-- Fondo intercambiable -->
+    <div id="main-bg" class="mesh-bg bg-grid"></div>
+
+    <!-- Panel de Control Interactivo -->
+    <div class="control-panel">
+        <h3>Fondos de Pantalla</h3>
+        <select id="bg-selector" style="width: 100%; margin-bottom: 8px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 4px; border-radius: 4px;">
+            <option value="bg-grid">Cuadrícula (Defecto)</option>
+            <option value="bg-neon">Luces de Neón</option>
+            <option value="bg-nature">Naturaleza</option>
+            <option value="bg-abstract">Abstracto 3D</option>
+        </select>
+        
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
+
+        <h3 style="margin-top: 8px;">Ajustes Ópticos</h3>
+        
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
+
+        <label>Efecto Brillante <span id="val-shine">19%</span></label>
+        <input type="range" id="sl-shine" min="0" max="100" step="1" value="19">
+
+        <label>Redondeado de Pastilla <span id="val-radius">50px</span></label>
+        <input type="range" id="sl-radius" min="0" max="100" step="1" value="50">
+
+        <label>Grosor de Distorsión (Padding) <span id="val-padding">100px</span></label>
+        <input type="range" id="sl-padding" min="0" max="200" step="1" value="100">
+
+        <label>Forma (Plano ↔ Curvo) <span id="val-power">9</span></label>
+        <input type="range" id="sl-power" min="2" max="15" step="0.5" value="9">
+
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
+
+        <label>Aberración Cromática Maestra <span id="val-chroma">5</span></label>
+        <input type="range" id="sl-chroma" min="0" max="50" step="0.5" value="5">
+
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
+
+        <label>Fuerza Izquierda <span id="val-int-l">0.5</span></label>
+        <input type="range" id="sl-int-l" min="0" max="3" step="0.1" value="0.5">
+
+        <label>Fuerza Derecha <span id="val-int-r">0.5</span></label>
+        <input type="range" id="sl-int-r" min="0" max="3" step="0.1" value="0.5">
+
+        <label>Fuerza Arriba <span id="val-int-t">0.5</span></label>
+        <input type="range" id="sl-int-t" min="0" max="3" step="0.1" value="0.5">
+
+        <label>Fuerza Abajo <span id="val-int-b">0.5</span></label>
+        <input type="range" id="sl-int-b" min="0" max="3" step="0.1" value="0.5">
+
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
+
+        <label>Rojo (Individual) <span id="val-r">-53</span></label>
+        <input type="range" id="sl-r" min="-150" max="50" step="1" value="-53">
+
+        <label>Verde (Individual) <span id="val-g">-58</span></label>
+        <input type="range" id="sl-g" min="-150" max="50" step="1" value="-58">
+
+        <label>Azul (Individual) <span id="val-b">-63</span></label>
+        <input type="range" id="sl-b" min="-150" max="50" step="1" value="-63">
+
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
+
+        <label>Difuminado Cristal <span id="val-blur">0px</span></label>
+        <input type="range" id="sl-blur" min="0" max="10" step="0.5" value="0">
+
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
+        <h3 style="margin-top: 8px;">Físicas de Fluido</h3>
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
+
+        <label>Elasticidad (Rebote) <span id="val-spring">0.70</span></label>
+        <input type="range" id="sl-spring" min="0.1" max="0.95" step="0.01" value="0.70">
+
+        <label>Deformación (Gota) <span id="val-deform">0.5</span></label>
+        <input type="range" id="sl-deform" min="0" max="3" step="0.1" value="0.5">
+
+        <label>Amplitud Ondas <span id="val-wave-amp">6.5</span></label>
+        <input type="range" id="sl-wave-amp" min="0" max="20" step="0.5" value="6.5">
+
+        <label>Frecuencia Ondas <span id="val-wave-freq">4</span></label>
+        <input type="range" id="sl-wave-freq" min="1" max="30" step="1" value="4">
+    </div>
+
+    <!-- Filtro SVG nativo garantizado a prueba de fallos -->
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="chromatic" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="linearRGB">
+            <feImage id="svg-lens-image" href="" result="normalMap" preserveAspectRatio="none" />
+            
+            <!-- Separar canales RGB -->
+            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red_src" />
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="green_src" />
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blue_src" />
+            
+            <!-- Desplazamiento sutil para aberración cromática: escalas muy cercanas para que no rompa el texto -->
+            <feDisplacementMap id="disp-r" in="red_src" in2="normalMap" scale="-55" xChannelSelector="R" yChannelSelector="G" result="red_warp" />
+            <feDisplacementMap id="disp-g" in="green_src" in2="normalMap" scale="-58" xChannelSelector="R" yChannelSelector="G" result="green_warp" />
+            <feDisplacementMap id="disp-b" in="blue_src" in2="normalMap" scale="-61" xChannelSelector="R" yChannelSelector="G" result="blue_warp" />
+            
+            <!-- Mezclar canales desplazados -->
+            <feBlend mode="screen" in="red_warp" in2="green_warp" result="rg" />
+            <feBlend mode="screen" in="rg" in2="blue_warp" result="rgb" />
+        </filter>
+    </svg>
+
+    <div class="app-container">
+        <div class="mini-nav-wrapper" id="nav-wrapper">
+            <!-- Capa Base (Texto inactivo detrás del cristal) -->
+            <div class="mini-text-layer">
+                <div class="mini-btn">Opción A</div>
+                <div class="mini-btn">Opción B</div>
+                <div class="mini-btn">Opción C</div>
+                <div class="mini-btn">Opción D</div>
+            </div>
+            
+            <!-- Cristal (Base difuminada + Borde distorsionado) -->
+            <div id="mini-glass-wrapper">
+                <!-- The masked active text is placed BEHIND the glass base so it gets refracted! -->
+                <div class="mini-interactive">
+                    <div class="interactive-content" id="interactive-content">
+                        <div class="mini-btn" style="color: #ff5b73; font-weight: 800; font-size: 26px;">Opción A</div>
+                        <div class="mini-btn" style="color: #4e80ee; font-weight: 800; font-size: 26px;">Opción B</div>
+                        <div class="mini-btn" style="color: #62bec2; font-weight: 800; font-size: 26px;">Opción C</div>
+                        <div class="mini-btn" style="color: #d062c2; font-weight: 800; font-size: 26px;">Opción D</div>
+                    </div>
+                </div>
+                <!-- The glass base applies the displacement filter to everything behind it -->
+                <div id="mini-glass-base"></div>
+            </div>
+            
+            <!-- Capa transparente para atrapar clics -->
+            <div class="mini-click-layer" id="click-layer">
+                <div class="mini-btn"></div>
+                <div class="mini-btn"></div>
+                <div class="mini-btn"></div>
+                <div class="mini-btn"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
