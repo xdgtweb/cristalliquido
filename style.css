@@ -45,48 +45,107 @@ body {
     align-items: center;
 }
 
-/* --- Control Panel --- */
+/* --- Control Panel (Leva Theme) --- */
 .control-panel {
     position: fixed;
     top: 24px;
     right: 24px;
-    background: rgba(10, 10, 15, 0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 24px;
-    width: 280px;
+    background: #181c20;
+    border: 1px solid #3b3d46;
+    border-radius: 8px;
+    padding: 8px 0;
+    width: 320px;
     max-height: calc(100vh - 48px);
     overflow-y: auto;
     z-index: 100;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
 
-.control-panel h3 {
-    margin-bottom: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.9);
+/* Custom Scrollbar for Control Panel */
+.control-panel::-webkit-scrollbar {
+    width: 6px;
+}
+.control-panel::-webkit-scrollbar-track {
+    background: #181c20;
+}
+.control-panel::-webkit-scrollbar-thumb {
+    background: #3b3d46;
+    border-radius: 3px;
 }
 
-.control-panel label {
+.folder {
+    border-bottom: 1px solid #2a2c33;
+    padding: 10px 12px;
+}
+.folder:last-child {
+    border-bottom: none;
+}
+
+.folder h3 {
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.control-row {
     display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: -4px;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+.control-row:last-child {
+    margin-bottom: 0;
 }
 
-.control-panel input[type=range] {
-    width: 100%;
-    accent-color: #ff5b73;
-    margin-bottom: 8px;
+.control-row .label {
+    width: 110px;
+    font-size: 11px;
+    color: #c9c9cb;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
+.control-row input[type=range] {
+    flex: 1;
+    margin: 0;
+    height: 4px;
+    background: #3b3d46;
+    border-radius: 2px;
+    -webkit-appearance: none;
+    outline: none;
+}
+.control-row input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 14px;
+    background: #fff;
+    border-radius: 2px;
+    cursor: pointer;
+}
+.control-row input[type=range]::-moz-range-thumb {
+    width: 10px;
+    height: 14px;
+    background: #fff;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.control-row .value {
+    width: 45px;
+    background: #3b3d46;
+    color: #c9c9cb;
+    font-size: 11px;
+    padding: 3px 4px;
+    border-radius: 4px;
+    text-align: right;
+    font-family: monospace;
+}
+
 
 /* --- Background Variations --- */
 .mesh-bg {

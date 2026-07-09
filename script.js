@@ -47,36 +47,36 @@ let intensityBottom = 0.5;
 // --- CONTROL PANEL LOGIC ---
 
 document.getElementById('sl-g-size').addEventListener('input', (e) => {
-    document.getElementById('val-g-size').textContent = e.target.value + '%';
+    document.getElementById('val-g-size').textContent = parseFloat(e.target.value).toFixed(2);
     root.style.setProperty('--glare-size', e.target.value + '%');
 });
 document.getElementById('sl-g-hard').addEventListener('input', (e) => {
-    document.getElementById('val-g-hard').textContent = e.target.value + '%';
+    document.getElementById('val-g-hard').textContent = parseFloat(e.target.value).toFixed(2);
     root.style.setProperty('--glare-hardness', e.target.value + '%');
 });
 document.getElementById('sl-g-int').addEventListener('input', (e) => {
-    document.getElementById('val-g-int').textContent = e.target.value + '%';
+    document.getElementById('val-g-int').textContent = parseFloat(e.target.value).toFixed(2);
     root.style.setProperty('--glare-intensity', e.target.value / 100);
 });
 document.getElementById('sl-g-angle').addEventListener('input', (e) => {
-    document.getElementById('val-g-angle').textContent = e.target.value + '°';
+    document.getElementById('val-g-angle').textContent = parseFloat(e.target.value).toFixed(1);
     root.style.setProperty('--glare-angle', e.target.value + 'deg');
 });
 
 document.getElementById('sl-s-exp').addEventListener('input', (e) => {
-    document.getElementById('val-s-exp').textContent = e.target.value + 'px';
+    document.getElementById('val-s-exp').textContent = parseFloat(e.target.value).toFixed(2);
     root.style.setProperty('--shadow-expand', e.target.value + 'px');
 });
 document.getElementById('sl-s-int').addEventListener('input', (e) => {
-    document.getElementById('val-s-int').textContent = e.target.value + '%';
+    document.getElementById('val-s-int').textContent = parseFloat(e.target.value).toFixed(2);
     root.style.setProperty('--shadow-intensity', e.target.value / 100);
 });
 document.getElementById('sl-s-x').addEventListener('input', (e) => {
-    document.getElementById('val-s-x').textContent = e.target.value;
+    document.getElementById('val-s-x').textContent = parseFloat(e.target.value).toFixed(2);
     root.style.setProperty('--shadow-pos-x', e.target.value + 'px');
 });
 document.getElementById('sl-s-y').addEventListener('input', (e) => {
-    document.getElementById('val-s-y').textContent = e.target.value;
+    document.getElementById('val-s-y').textContent = parseFloat(e.target.value).toFixed(2);
     root.style.setProperty('--shadow-pos-y', e.target.value + 'px');
 });
 
@@ -97,7 +97,7 @@ document.getElementById('sl-tint-alpha').addEventListener('input', updateTint);
 
 document.getElementById('sl-radius').addEventListener('input', (e) => {
     baseRadius = parseFloat(e.target.value);
-    document.getElementById('val-radius').textContent = baseRadius + 'px';
+    document.getElementById('val-radius').textContent = baseRadius.toFixed(2);
     if (!isDragging) {
         root.style.setProperty('--br-tl', baseRadius + 'px');
         root.style.setProperty('--br-tr', baseRadius + 'px');
@@ -108,13 +108,13 @@ document.getElementById('sl-radius').addEventListener('input', (e) => {
 
 document.getElementById('sl-padding').addEventListener('input', (e) => {
     distortionPadding = parseFloat(e.target.value);
-    document.getElementById('val-padding').textContent = distortionPadding + 'px';
+    document.getElementById('val-padding').textContent = distortionPadding;
     updateLensMap();
 });
 
 document.getElementById('sl-power').addEventListener('input', (e) => {
     currentPower = parseFloat(e.target.value);
-    document.getElementById('val-power').textContent = currentPower;
+    document.getElementById('val-power').textContent = currentPower.toFixed(1);
     updateLensMap();
 });
 
@@ -148,7 +148,7 @@ const chromaSlider = document.getElementById('sl-chroma');
 if (chromaSlider) {
     chromaSlider.addEventListener('input', (e) => {
         currentChroma = parseFloat(e.target.value);
-        document.getElementById('val-chroma').textContent = currentChroma;
+        document.getElementById('val-chroma').textContent = currentChroma.toFixed(1);
         syncRGBFromMaster();
     });
 }
@@ -167,7 +167,7 @@ if (chromaSlider) {
 
 document.getElementById('sl-blur').addEventListener('input', (e) => {
     const val = e.target.value;
-    document.getElementById('val-blur').textContent = val + 'px';
+    document.getElementById('val-blur').textContent = parseFloat(val).toFixed(2);
     document.documentElement.style.setProperty('--glass-blur', val + 'px');
 });
 
@@ -192,15 +192,15 @@ document.getElementById('sl-spring').addEventListener('input', (e) => {
 });
 document.getElementById('sl-deform').addEventListener('input', (e) => {
     deformMultiplier = parseFloat(e.target.value);
-    document.getElementById('val-deform').textContent = deformMultiplier.toFixed(1);
+    document.getElementById('val-deform').textContent = deformMultiplier.toFixed(2);
 });
 document.getElementById('sl-wave-amp').addEventListener('input', (e) => {
     waveAmplitude = parseFloat(e.target.value);
-    document.getElementById('val-wave-amp').textContent = waveAmplitude.toFixed(1);
+    document.getElementById('val-wave-amp').textContent = waveAmplitude.toFixed(2);
 });
 document.getElementById('sl-wave-freq').addEventListener('input', (e) => {
     waveFreq = parseFloat(e.target.value);
-    document.getElementById('val-wave-freq').textContent = waveFreq;
+    document.getElementById('val-wave-freq').textContent = waveFreq.toFixed(2);
 });
 
 const bgTextBtns = document.querySelectorAll('.mini-text-layer .mini-btn');

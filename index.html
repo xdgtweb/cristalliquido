@@ -10,108 +10,134 @@
     <!-- Fondo intercambiable -->
     <div id="main-bg" class="mesh-bg bg-grid"></div>
 
-    <!-- Panel de Control Interactivo -->
+    <!-- Panel de Control Interactivo (Estilo Leva/Tweakpane) -->
     <div class="control-panel">
-        <h3>Fondos de Pantalla</h3>
-        <select id="bg-selector" style="width: 100%; margin-bottom: 8px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 4px; border-radius: 4px;">
-            <option value="bg-grid">Cuadrícula (Defecto)</option>
-            <option value="bg-neon">Luces de Neón</option>
-            <option value="bg-nature">Naturaleza</option>
-            <option value="bg-abstract">Abstracto 3D</option>
-        </select>
-        
-        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
-
-        <h3 style="margin-top: 8px;">Refracción & Dispersión</h3>
-        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
-
-        <label>Thickness / Grosor <span id="val-padding">100px</span></label>
-        <input type="range" id="sl-padding" min="0" max="200" step="1" value="100">
-
-        <label>Refraction Factor (Curva) <span id="val-power">9</span></label>
-        <input type="range" id="sl-power" min="2" max="15" step="0.5" value="9">
-
-        <label>Dispersion Gain (Chroma) <span id="val-chroma">5</span></label>
-        <input type="range" id="sl-chroma" min="0" max="50" step="0.5" value="5">
-
-        <div style="display: none;">
-            <!-- Ocultamos los direccionales RGB avanzados individuales para no abrumar, pero mantenemos su funcionalidad interna ligada al gain maestro si queremos -->
-            <input type="range" id="sl-int-l" value="0.5">
-            <input type="range" id="sl-int-r" value="0.5">
-            <input type="range" id="sl-int-t" value="0.5">
-            <input type="range" id="sl-int-b" value="0.5">
-            <input type="range" id="sl-r" value="-53">
-            <input type="range" id="sl-g" value="-58">
-            <input type="range" id="sl-b" value="-63">
-        </div>
-
-        <h3 style="margin-top: 12px;">Resplandor (Glare)</h3>
-        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
-
-        <label>Glare Size <span id="val-g-size">60%</span></label>
-        <input type="range" id="sl-g-size" min="0" max="100" step="1" value="60">
-
-        <label>Glare Hardness <span id="val-g-hard">0%</span></label>
-        <input type="range" id="sl-g-hard" min="0" max="100" step="1" value="0">
-
-        <label>Glare Intensity <span id="val-g-int">60%</span></label>
-        <input type="range" id="sl-g-int" min="0" max="100" step="1" value="60">
-
-        <label>Glare Angle <span id="val-g-angle">-45°</span></label>
-        <input type="range" id="sl-g-angle" min="-180" max="180" step="1" value="-45">
-
-        <h3 style="margin-top: 12px;">Estética del Cristal</h3>
-        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
-
-        <label>Blur Radius <span id="val-blur">0px</span></label>
-        <input type="range" id="sl-blur" min="0" max="20" step="0.5" value="0">
-        
-        <label>Redondeado (Radius) <span id="val-radius">50px</span></label>
-        <input type="range" id="sl-radius" min="0" max="100" step="1" value="50">
-
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-            <label style="margin: 0;">Tint Color</label>
-            <div style="display: flex; gap: 8px; align-items: center;">
-                <input type="color" id="sl-tint-color" value="#ffffff" style="width: 24px; height: 24px; padding: 0; border: none; background: transparent; cursor: pointer;">
-                <input type="range" id="sl-tint-alpha" min="0" max="1" step="0.01" value="0.05" style="width: 60px; margin: 0;">
+        <div class="folder">
+            <h3>Backgrounds</h3>
+            <div class="control-row">
+                <select id="bg-selector" style="width: 100%; background: #3b3d46; color: #c9c9cb; border: none; padding: 4px; border-radius: 4px; font-size: 11px;">
+                    <option value="bg-grid">Grid (Default)</option>
+                    <option value="bg-neon">Neon Lights</option>
+                    <option value="bg-nature">Nature</option>
+                    <option value="bg-abstract">3D Abstract</option>
+                </select>
             </div>
         </div>
 
-        <h3 style="margin-top: 12px;">Sombreado (Shadows)</h3>
-        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
+        <div class="folder">
+            <h3>Refracción & Dispersión</h3>
+            <div class="control-row">
+                <div class="label">Thickness</div>
+                <input type="range" id="sl-padding" min="0" max="200" step="1" value="100">
+                <div class="value" id="val-padding">100</div>
+            </div>
+            <div class="control-row">
+                <div class="label">Refraction Factor</div>
+                <input type="range" id="sl-power" min="2" max="15" step="0.1" value="9.0">
+                <div class="value" id="val-power">9.0</div>
+            </div>
+            <div class="control-row">
+                <div class="label">Dispersion Gain</div>
+                <input type="range" id="sl-chroma" min="0" max="50" step="0.5" value="5.0">
+                <div class="value" id="val-chroma">5.0</div>
+            </div>
+            <div style="display:none;">
+                <input type="range" id="sl-int-l" value="0.5"><input type="range" id="sl-int-r" value="0.5">
+                <input type="range" id="sl-int-t" value="0.5"><input type="range" id="sl-int-b" value="0.5">
+                <input type="range" id="sl-r" value="-53"><input type="range" id="sl-g" value="-58"><input type="range" id="sl-b" value="-63">
+            </div>
+        </div>
 
-        <label>Shadow Expand <span id="val-s-exp">25px</span></label>
-        <input type="range" id="sl-s-exp" min="0" max="100" step="1" value="25">
+        <div class="folder">
+            <h3>Fresnel & Glare</h3>
+            <div class="control-row">
+                <div class="label">Glare Size</div>
+                <input type="range" id="sl-g-size" min="0" max="100" step="1" value="60">
+                <div class="value" id="val-g-size">60.00</div>
+            </div>
+            <div class="control-row">
+                <div class="label">Glare Hardness</div>
+                <input type="range" id="sl-g-hard" min="0" max="100" step="1" value="0">
+                <div class="value" id="val-g-hard">0.00</div>
+            </div>
+            <div class="control-row">
+                <div class="label">Glare Intensity</div>
+                <input type="range" id="sl-g-int" min="0" max="100" step="1" value="60">
+                <div class="value" id="val-g-int">60.00</div>
+            </div>
+            <div class="control-row">
+                <div class="label">Glare Angle</div>
+                <input type="range" id="sl-g-angle" min="-180" max="180" step="1" value="-45">
+                <div class="value" id="val-g-angle">-45.0</div>
+            </div>
+        </div>
 
-        <label>Shadow Intensity <span id="val-s-int">50%</span></label>
-        <input type="range" id="sl-s-int" min="0" max="100" step="1" value="50">
+        <div class="folder">
+            <h3>Estética (Blur & Tint)</h3>
+            <div class="control-row">
+                <div class="label">Blur Radius</div>
+                <input type="range" id="sl-blur" min="0" max="20" step="0.5" value="0">
+                <div class="value" id="val-blur">0.00</div>
+            </div>
+            <div class="control-row">
+                <div class="label">Radius (Bordes)</div>
+                <input type="range" id="sl-radius" min="0" max="100" step="1" value="50">
+                <div class="value" id="val-radius">50.00</div>
+            </div>
+            <div class="control-row">
+                <div class="label">Tint Color</div>
+                <input type="color" id="sl-tint-color" value="#ffffff" style="flex:1; height: 16px; border:none; padding:0; background:transparent;">
+                <input type="range" id="sl-tint-alpha" min="0" max="1" step="0.01" value="0.05" style="width:60px; margin-left: 4px;">
+            </div>
+        </div>
 
-        <div style="display: flex; justify-content: space-between; gap: 10px; margin-top: 4px;">
-            <div style="flex: 1;">
-                <label>Pos X <span id="val-s-x">0</span></label>
+        <div class="folder">
+            <h3>Sombreado</h3>
+            <div class="control-row">
+                <div class="label">Shadow Expand</div>
+                <input type="range" id="sl-s-exp" min="0" max="100" step="1" value="25">
+                <div class="value" id="val-s-exp">25.00</div>
+            </div>
+            <div class="control-row">
+                <div class="label">Shadow Intensity</div>
+                <input type="range" id="sl-s-int" min="0" max="100" step="1" value="50">
+                <div class="value" id="val-s-int">50.00</div>
+            </div>
+            <div class="control-row">
+                <div class="label">Position X</div>
                 <input type="range" id="sl-s-x" min="-50" max="50" step="1" value="0">
+                <div class="value" id="val-s-x">0.00</div>
             </div>
-            <div style="flex: 1;">
-                <label>Pos Y <span id="val-s-y">15</span></label>
+            <div class="control-row">
+                <div class="label">Position Y</div>
                 <input type="range" id="sl-s-y" min="-50" max="50" step="1" value="15">
+                <div class="value" id="val-s-y">15.00</div>
             </div>
         </div>
 
-        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
-        <h3 style="margin-top: 8px;">Físicas de Fluido</h3>
-        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
-
-        <label>Elasticidad (Rebote) <span id="val-spring">0.70</span></label>
-        <input type="range" id="sl-spring" min="0.1" max="0.95" step="0.01" value="0.70">
-
-        <label>Deformación (Gota) <span id="val-deform">0.5</span></label>
-        <input type="range" id="sl-deform" min="0" max="3" step="0.1" value="0.5">
-
-        <label>Amplitud Ondas <span id="val-wave-amp">6.5</span></label>
-        <input type="range" id="sl-wave-amp" min="0" max="20" step="0.5" value="6.5">
-
-        <label>Frecuencia Ondas <span id="val-wave-freq">4</span></label>
-        <input type="range" id="sl-wave-freq" min="1" max="30" step="1" value="4">
+        <div class="folder">
+            <h3>Físicas de Fluido</h3>
+            <div class="control-row">
+                <div class="label">Elasticity</div>
+                <input type="range" id="sl-spring" min="0.1" max="0.95" step="0.01" value="0.70">
+                <div class="value" id="val-spring">0.70</div>
+            </div>
+            <div class="control-row">
+                <div class="label">Deformation</div>
+                <input type="range" id="sl-deform" min="0" max="3" step="0.1" value="0.5">
+                <div class="value" id="val-deform">0.50</div>
+            </div>
+            <div class="control-row">
+                <div class="label">Wave Amp</div>
+                <input type="range" id="sl-wave-amp" min="0" max="20" step="0.5" value="6.5">
+                <div class="value" id="val-wave-amp">6.50</div>
+            </div>
+            <div class="control-row">
+                <div class="label">Wave Freq</div>
+                <input type="range" id="sl-wave-freq" min="1" max="30" step="1" value="4">
+                <div class="value" id="val-wave-freq">4.00</div>
+            </div>
+        </div>
     </div>
 
     <!-- Filtro SVG nativo garantizado a prueba de fallos -->
