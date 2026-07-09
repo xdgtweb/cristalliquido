@@ -589,16 +589,11 @@ panel.addEventListener('pointerup', (e) => {
     } else if (!panelOpen && delta < -50) {
         panel.classList.add('open');
         panelOpen = true;
-    }
-});
-
-const panelToggle = document.getElementById('panel-toggle');
-if (panelToggle) {
-    panelToggle.addEventListener('click', () => {
+    } else if (Math.abs(delta) < 10) {
         panel.classList.toggle('open');
         panelOpen = panel.classList.contains('open');
-    });
-}
+    }
+});
 
 // --- BACKGROUND SELECTOR ---
 const bgSelector = document.getElementById('bg-selector');

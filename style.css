@@ -261,7 +261,7 @@ body {
         padding: 10px 20px 20px 20px;
         border: none;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        transform: translateY(calc(100% - 64px));
+        transform: translateY(calc(100% - 60px));
         transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         cursor: grab;
     }
@@ -270,12 +270,14 @@ body {
         transform: translateY(0);
     }
     
-    #panel-toggle {
-        display: block !important;
-    }
-    
-    .control-panel.open #panel-arrow {
-        transform: rotate(180deg);
+    .control-panel::before {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 5px;
+        margin: 0 auto 16px auto;
     }
     
     .app-container {
