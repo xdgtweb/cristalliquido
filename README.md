@@ -1,49 +1,109 @@
-# Efecto "Liquid Glass" Slider - Documentación de Referencia
+# 🔮 Liquid Glass Studio
 
-🔗 **[Ver Demo en Vivo (GitHub Pages)](https://xdgtweb.github.io/cristalliquido/)**
+![frontPhoto](./.github/assets/title.png)
 
-Este directorio contiene todo lo necesario para entender y replicar de manera robusta y profesional el efecto "Liquid Glass" con máscara invertida, arrastre físico y centrado óptico.
+[English](README.md) | [简体中文](README-zh.md) | [O‘zbekcha](README-uz.md)
 
-## Archivos en este directorio
-1. `index.html`: Estructura HTML básica necesaria para el efecto.
-2. `style.css`: Todo el CSS, incluyendo la matemática de las máscaras CSS, variables de transición elástica, y corrección de centrado óptico.
-3. `script.js`: La lógica JavaScript para soportar interacción física (arrastrar la pastilla con el dedo/ratón) y cómo evitar bugs comunes (como el doble rebote).
+The Ultimate Web Recreation of Apple’s Liquid Glass UI, powered by WebGL2 & WebGPU. Includes most Liquid Glass features with fine-grained controls for detailed customization.
 
-## Conceptos Core del Efecto
+## Online Demo
 
-Para lograr que el texto que está debajo de la pastilla adquiera un color distinto sin duplicar el DOM innecesariamente y sin que el texto gris "se asome" de fondo de manera fea, empleamos el truco de la **Máscara Invertida**.
+https://liquid-glass-studio.vercel.app/
 
-### 1. La Arquitectura de las 3 Capas
-Para que el efecto se vea limpio, necesitamos apilar 3 elementos usando `position: absolute`:
+For users in mainland China, please visit:  
+https://liquid-glass.iyinchao.cn/
 
-*   **Capa Base (Texto Activo):** Esta es la capa que se encuentra al fondo del todo. Contiene los iconos y textos con el color "activo" (ej. Rosa/Azul). Se dibuja por completo.
-*   **Capa Intermedia (Pastilla de Cristal):** Elemento estético que tiene los bordes, el blur (`backdrop-filter`) y la semi-transparencia. Refracta lo que tiene detrás (la capa base activa). Se mueve usando `transform: translateY()`.
-*   **Capa Superior (Interactiva & Máscara Invertida):** Esta es la botonera real que recibe los clicks. Contiene el texto inactivo (Gris). **La Magia:** Esta capa superior tiene un agujero transparente ("máscara invertida") que se mueve en sincronía con la pastilla de cristal. Por este "agujero", vemos asomarse la pastilla de cristal refractando el texto de la Capa Base.
+## ScreenShots
 
-### 2. La Máscara Invertida (`mask-composite: exclude`)
-Para hacerle un "agujero" dinámico a la capa gris superior, usamos CSS Masks combinadas:
-```css
--webkit-mask-image: linear-gradient(black, black), linear-gradient(black, black);
--webkit-mask-size: 100% 100%, 100% 48px; /* Fondo completo vs Agujero del tamaño de la pastilla */
--webkit-mask-position: 0 0, 0 calc(var(--active-tab) * 60px); /* El agujero se mueve */
--webkit-mask-composite: xor; /* Crea el hueco donde se solapan */
+<table align="center">
+  <tr>
+    <td><img src="./.github/assets/title-video.gif" width="240" ></td>
+    <td><img src="./.github/assets/screen-shot-1.png" width="240" /></td>
+    <td><img src="./.github/assets/screen-shot-2.png" width="240" /></td>
+  </tr>
+  <tr>
+    <td><img src="./.github/assets/screen-shot-3.png" width="240" /></td>
+    <td><img src="./.github/assets/screen-shot-4.png" width="240" /></td>
+  </tr>
+</table>
+
+## Features
+
+**✨ Apple Liquid Glass Effects:**
+
+- Refraction
+- Dispersion
+- Fresnel reflection
+- Superellipse shapes
+- Blob effect (shape merging)
+- Glare with customizable angle
+- Gaussian blur masking
+- Anti-aliasing
+
+**⚙️ Interactive Controls:**
+
+- Comprehensive real-time parameter adjustments via an intuitive UI
+
+**🖼 Background Options:**
+
+- Support for both images and videos as dynamic backgrounds
+
+**🎞 Animation Support:**
+
+- Spring-based shape animations with configurable behavior
+
+## Technical Highlights
+
+- WebGL2 / WebGPU dual-backend rendering for high-performance graphics
+- Multipass rendering for high-quality & performant Gaussian blur
+- Using SDF Defined shapes and smooth merge function
+- Custom shader implementations for realistic glass effects
+- Custom Leva UI components for intuitive parameter controls
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (latest LTS version recommended)
+- pnpm package manager
+
+### Installation
+
+```bash
+# Install dependencies
+pnpm install
+
+# Start development server
+pnpm dev
+
+# Build for production
+pnpm build
 ```
 
-### 3. El Centrado Óptico y las Matemáticas del Flexbox
-Cuando usas `align-items: center` en textos o iconos, el navegador centra la "caja geométrica" de la fuente, lo cual incluye el espacio para las letras colgantes (como la 'p', 'y', 'g'). Si una palabra no tiene letras colgantes (como "Perfil"), parecerá visualmente empujada hacia arriba.
+## TODO
 
-**La Solución Robusta:** 
-Nunca confíes ciegamente en `align-items: center`. Asegura las dimensiones de la caja:
-1.  Usa `height: 48px !important;`
-2.  Desactiva los paddings inferiores naturales y empuja el texto hacia su centro óptico con un padding asimétrico fijo, por ejemplo: `padding: 6px 16px 0 16px !important;` (Esto empuja todo 6 píxeles hacia abajo, eliminando el espacio visual arriba).
+- [x] More Glare Controls (hardness / color / size etc.)
+- [x] Custom Background
+- [x] Render with WebGPU
+- [ ] Editor mode
+- [ ] Glass Text Rendering
+- [ ] Glass Presets
+- [ ] Self-illumination
+- [ ] HDR illumination
+- [x] Control parameter import / export
+- [x] Render Step view to show intermediate results
+- [ ] UI Content inside of shape
 
-### 4. El "Doble Rebote" y el Scroll Debounce
-Un bug muy común al unir este efecto con un comportamiento tipo scroll "Snap" (como deslizar el contenido de la derecha para cambiar de pestaña) es el efecto "Yo-Yo" o doble rebote:
-- El usuario hace clic.
-- La pastilla vuela al destino instatáneamente.
-- El panel de contenido hace un smooth scroll hacia su destino.
-- Si el scroll es lento, un "scroll event listener" en el contenido cree erróneamente que el usuario se paró a mitad de camino.
-- Fuerza a la pastilla a retroceder, y luego la empuja hacia delante de nuevo.
+## Credits
 
-**Solución (Implementada en script.js):**
-No uses un `setTimeout` rígido de 600ms para volver a activar la lectura del scroll. Usa un "Scroll Debounce": Un `setTimeout` de 150ms que se reinicia CADA VEZ que salta el evento `scroll`. Solo cuando el navegador deja totalmente de emitir eventos de scroll, asumimos que ha llegado a su destino.
+Thanks to the following resources and inspirations:
+
+- [SDF functions](https://iquilezles.org/articles/distfunctions2d/) and [smooth merge function](https://iquilezles.org/articles/smin/) by [Inigo Quilez](https://iquilezles.org/)
+- Sample photo (Buildings) by <a href="https://unsplash.com/@anewevisual?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Adrian Newell</a> on <a href="https://unsplash.com/photos/a-row-of-multicolored-houses-on-a-street-UtfxJZ-uy5Q?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+- Sample video (Fish / Traffic) by Tom Fisk from [Pexels](https://www.pexels.com/video/light-city-road-traffic-4062991/)
+- Sample video (Flower) by Pixabay from [Pexels](https://www.pexels.com/video/orange-flowers-856383/)
+- Sample Photo by Apple and Tim Cook
+
+## License
+
+[MIT License](LICENSE)
