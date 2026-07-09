@@ -258,7 +258,7 @@ function LevaVectorNewComponent() {
               key={k}
               displayValue={(displayValue as any)[k]}
               value={(displayValue as any)[k]}
-              onUpdate={(v: any) => {
+              onUpdate={(v) => {
                 const lastValue = value[k];
                 let currentValue = lastValue;
                 if (typeof v === 'function') {
@@ -273,7 +273,7 @@ function LevaVectorNewComponent() {
                 };
                 onUpdate(newValue);
               }}
-              onChange={(v: any) => {
+              onChange={(v) => {
                 const newValue = {
                   ...value,
                   [k]: v,

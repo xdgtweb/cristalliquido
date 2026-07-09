@@ -6,7 +6,6 @@ import glsl from 'vite-plugin-glsl'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/cristalliquido/',
   server: {
     host: '0.0.0.0',
     allowedHosts: true,
