@@ -1,5 +1,7 @@
 # Efecto "Liquid Glass" Slider - Documentación de Referencia
 
+🔗 **[Ver Demo en Vivo (GitHub Pages)](https://xdgtweb.github.io/cristalliquido/)**
+
 Este directorio contiene todo lo necesario para entender y replicar de manera robusta y profesional el efecto "Liquid Glass" con máscara invertida, arrastre físico y centrado óptico.
 
 ## Archivos en este directorio
