@@ -502,8 +502,6 @@ function updateLensMap() {
         // y como el alpha siempre es 255, no necesitamos transparencia.
         let dataUrl = canvas.toDataURL('image/jpeg', 1.0);
         feImg.setAttribute('href', dataUrl);
-        // FIX CRÍTICO PARA IOS SAFARI (iPhone): Safari requiere explícitamente xlink:href en feImage
-        feImg.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', dataUrl);
     }
 }
 
