@@ -22,56 +22,80 @@
         
         <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
 
-        <h3 style="margin-top: 8px;">Ajustes Ópticos</h3>
-        
+        <h3 style="margin-top: 8px;">Refracción & Dispersión</h3>
         <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
 
-        <label>Efecto Brillante <span id="val-shine">19%</span></label>
-        <input type="range" id="sl-shine" min="0" max="100" step="1" value="19">
-
-        <label>Redondeado de Pastilla <span id="val-radius">50px</span></label>
-        <input type="range" id="sl-radius" min="0" max="100" step="1" value="50">
-
-        <label>Grosor de Distorsión (Padding) <span id="val-padding">100px</span></label>
+        <label>Thickness / Grosor <span id="val-padding">100px</span></label>
         <input type="range" id="sl-padding" min="0" max="200" step="1" value="100">
 
-        <label>Forma (Plano ↔ Curvo) <span id="val-power">9</span></label>
+        <label>Refraction Factor (Curva) <span id="val-power">9</span></label>
         <input type="range" id="sl-power" min="2" max="15" step="0.5" value="9">
 
-        <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
-
-        <label>Aberración Cromática Maestra <span id="val-chroma">5</span></label>
+        <label>Dispersion Gain (Chroma) <span id="val-chroma">5</span></label>
         <input type="range" id="sl-chroma" min="0" max="50" step="0.5" value="5">
 
+        <div style="display: none;">
+            <!-- Ocultamos los direccionales RGB avanzados individuales para no abrumar, pero mantenemos su funcionalidad interna ligada al gain maestro si queremos -->
+            <input type="range" id="sl-int-l" value="0.5">
+            <input type="range" id="sl-int-r" value="0.5">
+            <input type="range" id="sl-int-t" value="0.5">
+            <input type="range" id="sl-int-b" value="0.5">
+            <input type="range" id="sl-r" value="-53">
+            <input type="range" id="sl-g" value="-58">
+            <input type="range" id="sl-b" value="-63">
+        </div>
+
+        <h3 style="margin-top: 12px;">Resplandor (Glare)</h3>
         <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
 
-        <label>Fuerza Izquierda <span id="val-int-l">0.5</span></label>
-        <input type="range" id="sl-int-l" min="0" max="3" step="0.1" value="0.5">
+        <label>Glare Size <span id="val-g-size">60%</span></label>
+        <input type="range" id="sl-g-size" min="0" max="100" step="1" value="60">
 
-        <label>Fuerza Derecha <span id="val-int-r">0.5</span></label>
-        <input type="range" id="sl-int-r" min="0" max="3" step="0.1" value="0.5">
+        <label>Glare Hardness <span id="val-g-hard">0%</span></label>
+        <input type="range" id="sl-g-hard" min="0" max="100" step="1" value="0">
 
-        <label>Fuerza Arriba <span id="val-int-t">0.5</span></label>
-        <input type="range" id="sl-int-t" min="0" max="3" step="0.1" value="0.5">
+        <label>Glare Intensity <span id="val-g-int">60%</span></label>
+        <input type="range" id="sl-g-int" min="0" max="100" step="1" value="60">
 
-        <label>Fuerza Abajo <span id="val-int-b">0.5</span></label>
-        <input type="range" id="sl-int-b" min="0" max="3" step="0.1" value="0.5">
+        <label>Glare Angle <span id="val-g-angle">-45°</span></label>
+        <input type="range" id="sl-g-angle" min="-180" max="180" step="1" value="-45">
 
+        <h3 style="margin-top: 12px;">Estética del Cristal</h3>
         <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
 
-        <label>Rojo (Individual) <span id="val-r">-53</span></label>
-        <input type="range" id="sl-r" min="-150" max="50" step="1" value="-53">
+        <label>Blur Radius <span id="val-blur">0px</span></label>
+        <input type="range" id="sl-blur" min="0" max="20" step="0.5" value="0">
+        
+        <label>Redondeado (Radius) <span id="val-radius">50px</span></label>
+        <input type="range" id="sl-radius" min="0" max="100" step="1" value="50">
 
-        <label>Verde (Individual) <span id="val-g">-58</span></label>
-        <input type="range" id="sl-g" min="-150" max="50" step="1" value="-58">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+            <label style="margin: 0;">Tint Color</label>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <input type="color" id="sl-tint-color" value="#ffffff" style="width: 24px; height: 24px; padding: 0; border: none; background: transparent; cursor: pointer;">
+                <input type="range" id="sl-tint-alpha" min="0" max="1" step="0.01" value="0.05" style="width: 60px; margin: 0;">
+            </div>
+        </div>
 
-        <label>Azul (Individual) <span id="val-b">-63</span></label>
-        <input type="range" id="sl-b" min="-150" max="50" step="1" value="-63">
-
+        <h3 style="margin-top: 12px;">Sombreado (Shadows)</h3>
         <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
 
-        <label>Difuminado Cristal <span id="val-blur">0px</span></label>
-        <input type="range" id="sl-blur" min="0" max="10" step="0.5" value="0">
+        <label>Shadow Expand <span id="val-s-exp">25px</span></label>
+        <input type="range" id="sl-s-exp" min="0" max="100" step="1" value="25">
+
+        <label>Shadow Intensity <span id="val-s-int">50%</span></label>
+        <input type="range" id="sl-s-int" min="0" max="100" step="1" value="50">
+
+        <div style="display: flex; justify-content: space-between; gap: 10px; margin-top: 4px;">
+            <div style="flex: 1;">
+                <label>Pos X <span id="val-s-x">0</span></label>
+                <input type="range" id="sl-s-x" min="-50" max="50" step="1" value="0">
+            </div>
+            <div style="flex: 1;">
+                <label>Pos Y <span id="val-s-y">15</span></label>
+                <input type="range" id="sl-s-y" min="-50" max="50" step="1" value="15">
+            </div>
+        </div>
 
         <hr style="border-color: rgba(255,255,255,0.1); margin: 4px 0;">
         <h3 style="margin-top: 8px;">Físicas de Fluido</h3>

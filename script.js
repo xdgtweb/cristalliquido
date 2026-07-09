@@ -46,11 +46,54 @@ let intensityBottom = 0.5;
 
 // --- CONTROL PANEL LOGIC ---
 
-document.getElementById('sl-shine').addEventListener('input', (e) => {
-    const val = e.target.value;
-    document.getElementById('val-shine').textContent = val + '%';
-    document.documentElement.style.setProperty('--glass-shine', val / 100);
+document.getElementById('sl-g-size').addEventListener('input', (e) => {
+    document.getElementById('val-g-size').textContent = e.target.value + '%';
+    root.style.setProperty('--glare-size', e.target.value + '%');
 });
+document.getElementById('sl-g-hard').addEventListener('input', (e) => {
+    document.getElementById('val-g-hard').textContent = e.target.value + '%';
+    root.style.setProperty('--glare-hardness', e.target.value + '%');
+});
+document.getElementById('sl-g-int').addEventListener('input', (e) => {
+    document.getElementById('val-g-int').textContent = e.target.value + '%';
+    root.style.setProperty('--glare-intensity', e.target.value / 100);
+});
+document.getElementById('sl-g-angle').addEventListener('input', (e) => {
+    document.getElementById('val-g-angle').textContent = e.target.value + '°';
+    root.style.setProperty('--glare-angle', e.target.value + 'deg');
+});
+
+document.getElementById('sl-s-exp').addEventListener('input', (e) => {
+    document.getElementById('val-s-exp').textContent = e.target.value + 'px';
+    root.style.setProperty('--shadow-expand', e.target.value + 'px');
+});
+document.getElementById('sl-s-int').addEventListener('input', (e) => {
+    document.getElementById('val-s-int').textContent = e.target.value + '%';
+    root.style.setProperty('--shadow-intensity', e.target.value / 100);
+});
+document.getElementById('sl-s-x').addEventListener('input', (e) => {
+    document.getElementById('val-s-x').textContent = e.target.value;
+    root.style.setProperty('--shadow-pos-x', e.target.value + 'px');
+});
+document.getElementById('sl-s-y').addEventListener('input', (e) => {
+    document.getElementById('val-s-y').textContent = e.target.value;
+    root.style.setProperty('--shadow-pos-y', e.target.value + 'px');
+});
+
+function updateTint() {
+    const hex = document.getElementById('sl-tint-color').value;
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    const a = document.getElementById('sl-tint-alpha').value;
+    root.style.setProperty('--tint-r', r);
+    root.style.setProperty('--tint-g', g);
+    root.style.setProperty('--tint-b', b);
+    root.style.setProperty('--tint-a', a);
+}
+document.getElementById('sl-tint-color').addEventListener('input', updateTint);
+document.getElementById('sl-tint-alpha').addEventListener('input', updateTint);
+
 
 document.getElementById('sl-radius').addEventListener('input', (e) => {
     baseRadius = parseFloat(e.target.value);
